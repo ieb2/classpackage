@@ -1,4 +1,4 @@
-# change
+# testing change
 # binwidth = x argument may be passed to the ellipsis
 superior_almost_sas <- function(model, ...) {
   require(ggplot2)
