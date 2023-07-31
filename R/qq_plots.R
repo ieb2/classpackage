@@ -1,6 +1,7 @@
 # Variables need to be supplied in quotations
 
-one_qq_plot <- function(data, variable) {
+one_qq_plot <-
+  function(data, variable) {
   ggplot2::ggplot(data, aes(sample = get(variable))) +
     ggplot2::stat_qq_line(
       linetype = "dashed",
@@ -14,7 +15,19 @@ one_qq_plot <- function(data, variable) {
     ))
 }
 
-independent_qq_plot <- function(data, variable, grouping_variable) {
+# For wide_data, supply column names of groups in a vector
+independent_qq_plot <-
+  function(data, variable, grouping_variable, ...) {
+
+  if (!(grouping_variable %in% colnames(data))) {
+    data <- tidyr::pivot_longer(data, names_to = grouping_variable, cols = everything()) %>%
+      dplyr::filter(.[[grouping_variable]] %in% ...)
+
+    colnames(data) <- c(grouping_variable, variable)
+  } else {
+    data <- data
+  }
+
   split_dfs <- data %>%
     dplyr::group_split(get(grouping_variable))
 
@@ -62,10 +75,11 @@ independent_qq_plot <- function(data, variable, grouping_variable) {
   ggpubr::ggarrange(qq_1, qq_2)
 }
 
-# Data has to be in long format.
-dependent_qq_plot <- function(data, variable, grouping_variable, first_group, second_group) {
+# For wide_data, first_group and second_group are the respective column names
+dependent_qq_plot <-
+  function(data, variable, grouping_variable, first_group, second_group) {
 
-  if(!(grouping_variable %in% colnames(data))){
+  if (!(grouping_variable %in% colnames(data))) {
     data <- tidyr::pivot_longer(data, names_to = grouping_variable, cols = everything()) %>%
       dplyr::filter(.[[grouping_variable]] %in% c(first_group, second_group))
 
@@ -99,11 +113,11 @@ dependent_qq_plot <- function(data, variable, grouping_variable, first_group, se
 
   diff <- first_group_df[[1]][[variable]] - second_group_df[[1]][[variable]]
 
-  if(first_group_df[[1]][[grouping_variable]][[1]] != first_group){
+  if (first_group_df[[1]][[grouping_variable]][[1]] != first_group) {
     stop(cat(first_group, "is not a valid level of the grouping variable"))
   }
 
-  if(second_group_df[[1]][[grouping_variable]][[1]] != second_group){
+  if (second_group_df[[1]][[grouping_variable]][[1]] != second_group) {
     stop(cat(second_group, "is not a valid level of the grouping variable"))
   }
 
@@ -123,6 +137,4 @@ dependent_qq_plot <- function(data, variable, grouping_variable, first_group, se
       variable, " in order of: ",
       first_group, "-", second_group
     ))
-}
-
-
+  }
