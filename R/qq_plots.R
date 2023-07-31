@@ -39,8 +39,8 @@ independent_qq_plot <- function(data, variable, grouping_variable) {
     ) +
     ggplot2::stat_qq(color = "#6A6C6E") +
     ggplot2::theme_bw() +
-    ggplot2::labs(x = "Theoretical", y = "Sample", title = paste0("QQ Plot for ",
-      sep = "",
+    ggplot2::labs(x = "Theoretical", y = "Sample", title = paste0(
+      "QQ Plot for ", variable, ": ",
       grouping_variable, "=", levels_vector[[1]]
     ))
 
@@ -56,13 +56,13 @@ independent_qq_plot <- function(data, variable, grouping_variable) {
     ggplot2::stat_qq(color = "#6A6C6E") +
     ggplot2::theme_bw() +
     ggplot2::labs(x = "Theoretical", y = "Sample", title = paste0(
-      "QQ Plot for ",
+      "QQ Plot for ", variable, ": ",
       grouping_variable, "=", levels_vector[[2]]
     ))
   ggpubr::ggarrange(qq_1, qq_2)
 }
 
-
+# Data has to be in long format.
 dependent_qq_plot <- function(data, variable, grouping_variable, first_group, second_group) {
   split_dfs <- data %>%
     dplyr::group_split(get(grouping_variable))
@@ -87,7 +87,17 @@ dependent_qq_plot <- function(data, variable, grouping_variable, first_group, se
       split_dfs[2], split_dfs[1]
     )
 
-  data.frame(diff = first_group_df[[1]][[variable]] - second_group_df[[1]][[variable]]) %>%
+  diff <- first_group_df[[1]][[variable]] - second_group_df[[1]][[variable]]
+
+  if(first_group_df[[1]][[grouping_variable]][[1]] != first_group){
+    stop(cat(first_group, "is not a valid level of the grouping variable"))
+  }
+
+  if(second_group_df[[1]][[grouping_variable]][[1]] != second_group){
+    stop(cat(second_group, "is not a valid level of the grouping variable"))
+  }
+
+  data.frame(diff) %>%
     ggplot2::ggplot(
       .,
       aes(sample = diff)
@@ -104,3 +114,5 @@ dependent_qq_plot <- function(data, variable, grouping_variable, first_group, se
       first_group, "-", second_group
     ))
 }
+
+
