@@ -1,4 +1,19 @@
-# binwidth = x argument may be passed to the ellipsis
+#' superior_almost_sas
+#'
+#' Works similarly to almost_sas. Returns diagnostics graphs for lm or aov object.
+#'
+#' @import ggplot2
+#' @import ggpubr
+#' @import magrittr
+#'
+#' @param model A linear model generated via "lm" or "aov".
+#' @param ... Optional argument for supplying binwidth argument to geom_histogram.
+#' @return Graphic object
+#' @examples
+#' superior_almost_sas(lm(bill_length_mm ~ bill_depth_mm, data = penguins))
+#' superior_almost_sas(lm_object, binwidth = 10)
+#' superior_almost_sas(anova_object) # Error
+
 superior_almost_sas <- function(model, ...) {
   if ("lm" %in% class(model) == FALSE) {
     stop("Not a valid regression model.
