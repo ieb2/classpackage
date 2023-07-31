@@ -64,6 +64,16 @@ independent_qq_plot <- function(data, variable, grouping_variable) {
 
 # Data has to be in long format.
 dependent_qq_plot <- function(data, variable, grouping_variable, first_group, second_group) {
+
+  if(!(grouping_variable %in% colnames(data))){
+    data <- tidyr::pivot_longer(data, names_to = grouping_variable, cols = everything()) %>%
+      dplyr::filter(.[[grouping_variable]] %in% c(first_group, second_group))
+
+    colnames(data) <- c(grouping_variable, variable)
+  } else {
+    data <- data
+  }
+
   split_dfs <- data %>%
     dplyr::group_split(get(grouping_variable))
 
