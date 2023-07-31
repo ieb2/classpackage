@@ -10,7 +10,7 @@ one_qq_plot <- function(data, variable) {
     ggplot2::theme_bw() +
     ggplot2::labs(x = "Theoretical", y = "Sample", title = paste0("QQ Plot for ",
       sep = "",
-      deparse(substitute(variable))
+      variable
     ))
 }
 
@@ -41,7 +41,7 @@ independent_qq_plot <- function(data, variable, grouping_variable) {
     ggplot2::theme_bw() +
     ggplot2::labs(x = "Theoretical", y = "Sample", title = paste0("QQ Plot for ",
       sep = "",
-      levels_vector[[1]]
+      grouping_variable, "=", levels_vector[[1]]
     ))
 
   qq_2 <-
@@ -56,11 +56,11 @@ independent_qq_plot <- function(data, variable, grouping_variable) {
     ggplot2::stat_qq(color = "#6A6C6E") +
     ggplot2::theme_bw() +
     ggplot2::labs(x = "Theoretical", y = "Sample", title = paste0("QQ Plot for ",
-      sep = "",
-      levels_vector[[2]]
+      grouping_variable, "=", levels_vector[[2]]
     ))
   ggpubr::ggarrange(qq_1, qq_2)
 }
+
 
 dependent_qq_plot <- function(data, variable, grouping_variable, first_group, second_group) {
   split_dfs <- data %>%
@@ -98,7 +98,7 @@ dependent_qq_plot <- function(data, variable, grouping_variable, first_group, se
     ggplot2::stat_qq(color = "#6A6C6E") +
     ggplot2::theme_bw() +
     ggplot2::labs(x = "Theoretical", y = "Sample", title = paste0("QQ Plot for ",
-      sep = "",
+      variable, " in order of: ",
       first_group, "-", second_group
     ))
 }
