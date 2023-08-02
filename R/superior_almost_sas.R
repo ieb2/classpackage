@@ -1,12 +1,12 @@
 #' superior_almost_sas
 #'
-#' Works similarly to almost_sas. Returns diagnostics graphs for lm or aov object.
+#' Works similarly to almost_sas. Returns diagnostics graphs for glm, lm or aov object.
 #'
 #' @import ggplot2
 #' @import ggpubr
 #' @import magrittr
 #'
-#' @param model A linear model generated via "lm" or "aov".
+#' @param model A linear model generated via "glm", "lm" or "aov".
 #' @param ... Optional argument for supplying binwidth argument to geom_histogram.
 #' @return Graphic object
 #' @examples
@@ -17,7 +17,7 @@
 superior_almost_sas <- function(model, ...) {
   if ("lm" %in% class(model) == FALSE) {
     stop("Not a valid regression model.
-       Make sure object is created either via `lm` or `aov`")
+       Make sure object is created either via `glm`, lm` or `aov`")
   }
 
   res_fitted <-
