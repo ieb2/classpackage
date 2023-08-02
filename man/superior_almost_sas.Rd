@@ -7,7 +7,7 @@
 superior_almost_sas(model, ...)
 }
 \arguments{
-\item{model}{A linear model generated via "lm" or "aov".}
+\item{model}{A linear model generated via "glm", "lm" or "aov".}
 
 \item{...}{Optional argument for supplying binwidth argument to geom_histogram.}
 }
@@ -15,7 +15,7 @@ superior_almost_sas(model, ...)
 Graphic object
 }
 \description{
-Works similarly to almost_sas. Returns diagnostics graphs for lm or aov object.
+Works similarly to almost_sas. Returns diagnostics graphs for glm, lm or aov object.
 }
 \examples{
 superior_almost_sas(lm(bill_length_mm ~ bill_depth_mm, data = penguins))

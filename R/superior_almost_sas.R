@@ -13,7 +13,6 @@
 #' superior_almost_sas(lm(bill_length_mm ~ bill_depth_mm, data = penguins))
 #' superior_almost_sas(lm_object, binwidth = 10)
 #' superior_almost_sas(anova_object) # Error
-
 superior_almost_sas <- function(model, ...) {
   if ("lm" %in% class(model) == FALSE) {
     stop("Not a valid regression model.
