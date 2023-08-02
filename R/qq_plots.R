@@ -13,7 +13,8 @@
 #' one_qq_plot(penguins, "bill_length_mm")
 one_qq_plot <-
   function(data, variable) {
-    ggplot2::ggplot(data, ggplot2::aes()(sample = get(variable))) +
+
+    ggplot2::ggplot(data, ggplot2::aes(sample = get(variable))) +
       ggplot2::stat_qq_line(
         linetype = "dashed",
         color = "black", linewidth = 1
