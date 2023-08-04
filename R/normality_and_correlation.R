@@ -12,6 +12,8 @@
 #' @param data Data with numeric variables.
 #' @param method The method used to calculate correlation:
 #' c("pearson", "kendall", "spearman")
+#' @param digits_desired Optional argument for desired number of digits in
+#' numeric output. Default value is 5.
 #' @return List containing qq plots, correlation matrix, and Shapiro-Wilk test
 #' results
 #' @examples
@@ -19,7 +21,10 @@
 #' mutate_all(mtcars, as.factor) %>% normality_correlation(., "kendall") # Error
 #' normality_correlation(mtcars, "invalid_method") # Error
 
-normality_correlation <- function(data, method){
+normality_correlation <- function(data, method, digits_desired = NULL){
+
+  if(is.null(digits_desired)){digits_desired <- 5}
+  else{digits_desired <- digits_desired}
 
   if(!(method %in% c("pearson", "kendall", "spearman"))){stop("The method specified is not one supported by the `cor()` function.")}
 
@@ -41,14 +46,17 @@ normality_correlation <- function(data, method){
   qq_plots_out <-
     ggpubr::ggarrange(plotlist = qq_plots_list, ncol = cols, nrow = rows)
 
-  corr_mat <- cor(numeric_subset, method = method)
+  corr_mat <- cor(numeric_subset, method = method) %>%
+    round(., digits = digits_desired)
 
   normality_res <- lapply(numeric_subset, shapiro.test) %>%
     do.call(rbind, .) %>%
     data.frame() %>%
     tibble::rownames_to_column("Variable") %>%
     dplyr::select(-c(method, `data.name`)) %>%
-    dplyr::rename("Test Statistic" = "statistic", "p-value" = "p.value")
+    dplyr::rename("Test Statistic" = "statistic", "p-value" = "p.value") %>%
+    tidyr::unnest(cols = c(`Test Statistic`, `p-value`)) %>%
+    mutate_if(is.numeric, ~round(.x, digits = digits_desired))
 
 out_list <- list("Normality Test" = normality_res,
                  "Correlation Matrix" = corr_mat,
@@ -57,5 +65,4 @@ out_list <- list("Normality Test" = normality_res,
 return(out_list)
 
 }
-
 

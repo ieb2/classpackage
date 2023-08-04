@@ -4,13 +4,16 @@
 \alias{normality_correlation}
 \title{normality_correlation}
 \usage{
-normality_correlation(data, method)
+normality_correlation(data, method, digits_desired = NULL)
 }
 \arguments{
 \item{data}{Data with numeric variables.}
 
 \item{method}{The method used to calculate correlation:
 c("pearson", "kendall", "spearman")}
+
+\item{digits_desired}{Optional argument for desired number of digits in
+numeric output. Default value is 5.}
 }
 \value{
 List containing qq plots, correlation matrix, and Shapiro-Wilk test

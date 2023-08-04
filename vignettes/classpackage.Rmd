@@ -1,0 +1,134 @@
+---
+title: "classpackage"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{classpackage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(tidyverse.quiet = TRUE)
+```
+
+```{r setup, warning=FALSE}
+devtools::load_all("/Users/ihsanbuker/classpackage")
+library(classpackage)
+library(tidyverse)
+```
+
+Lets begin by loading and cleaning the `penguins` dataset from the `palmerpenguins` package. 
+
+```{r}
+data <- palmerpenguins::penguins %>%
+  tidyr::drop_na()
+```
+
+### normality_and_correlation
+In statistics, a routine task often carried out for continuous variables involves testing for normality and correlation, which can be performed using the `normality_and_correlation` function. 
+
+```{r}
+# For demonstration sake, we will use Kendall rank correlation
+output <- normality_correlation(data, "kendall")
+```
+
+The `output` variable is a list containing three items:
+
+```{r}
+names(output)
+```
+
+Which can be subsetted for further analysis. For demonstration sake, lets pull the correlation matrix. 
+
+```{r}
+correlation_matrix <- output[["Correlation Matrix"]]
+
+correlation_matrix
+```
+
+### QQ Plot Functions 
+
+QQ plots, or quantile-quantile plots, are graphical tools used to compare two probability distributions. Typically, they are used to compare the distribution of a continuous random variable with the normal distribution to assess how closely the variable of interest follows the normal distribution. This section will examine three functions: `one_qq_plot`, `independent_qq_plot`, and `dependent_qq_plot.` 
+
+#### one_qq_plot 
+The `one_qq_plot` function is used to construct a QQ plot for a single continuous random variable. This function is also used to construct the QQ plots that are part of the `normality_and_correlation` function. 
+
+Let's create a QQ plot for the `bill_length_mm` variable from the `penguins` dataset. 
+
+```{r}
+one_qq_plot(data, "bill_length_mm")
+```
+
+#### independent_qq_plot 
+
+QQ plots are useful for evaluating normality before conducting t-tests, whether the tests are dependent or independent. When using independent QQ plots, the normality assumption should be checked for each group being compared. In this case, we will compare the `bill_length_mm` between the sexes of the penguins.
+
+The `variable` argument accepts the column names that hold the values being compared between the two groups. On the other hand, the `grouping_variable` argument takes the name of the column that contains the values used to divide the measure variable into two distinct groups. 
+
+```{r}
+independent_qq_plot(data,
+  variable = "bill_length_mm",
+  grouping_variable = "sex"
+)
+```
+
+If the dataset is in wide format, where each group's measurements are stored in separate columns instead of using a variable to split the measure variable, you need to provide a character vector containing the names of those columns with the observations. In this scenario, the `grouping_variable` and `variable` arguments serve a more nominal purpose as they are only used to create titles for the QQ plots. For this purpose, let's simulate an arbitrary wide dataset. 
+
+```{r}
+wide_dataset <- data.frame(
+  group_1 = rnorm(500, 0, 1),
+  group_2 = rnorm(500, 1, 1)
+)
+
+independent_qq_plot(wide_dataset,
+  variable = "arbitrary measurement",
+  grouping_variable = "arbitrary separator",
+  c("group_1", "group_2")
+)
+```
+
+
+#### dependent_qq_plot 
+
+In dependent t-tests, the normality assumption pertains to the differences between the paired observations. The order in which the subtraction is performed doesn't affect the test itself, but it does alter the interpretation of the results. Consequently, when using the `dependent_qq_plot` function, we need to specify the order of subtraction to ensure accurate interpretation of the QQ plots.
+
+Since the penguins dataset lacks suitable data for a dependent t-test, we will create two datasets: one in wide format and the other in long format through simulation. We'll then compare how the arguments for the `dependent_qq_plot` function differ between these two formats.
+
+```{r}
+wide_dataset <- data.frame(
+  first_measurement = rnorm(500, 0, 1),
+  second_measurement = rnorm(500, 1, 1)
+)
+
+long_dataset <- data.frame(
+  measurements = c(
+    rnorm(500, 0, 1),
+    rnorm(500, 1, 1)
+  ),
+  which_measurement = rep(c("first", "second"), each = 500)
+)
+```
+
+In the long dataset, we use the `variable` argument, which represents the column containing the measurements we want to test. Similar to the previous function, we also use the `grouping_variable` argument, which holds the column name used to split the measurements into groups. Additionally, we have the `first_group` argument, where we specify the level of the `grouping_variable` from which the other level will be subtracted. The `second_group` argument is used to specify the level associated with the observations that will be subtracted from the first group.
+
+```{r}
+dependent_qq_plot(long_dataset, variable = "measurements", 
+                  grouping_variable = "which_measurement", 
+                  first_group = "first", 
+                  second_group = "second")
+```
+
+
+In the context of the `dependent_qq_plot` function with wide datasets, there is a slight difference in the purpose of the arguments compared to the `dependent_qq_plot` function with long datasets, which is similar to what was observed in the `independent_qq_plot` function. Here, the `grouping_variable` and `variable` arguments become irrelevant and are used solely to modify the title of the resulting QQ plot. Instead, the `first_group` argument takes the name of the column that stores the first set of observations, while the `second_group` argument takes the name of the column that stores the second set of observations.
+
+```{r}
+dependent_qq_plot(wide_dataset, variable = "arbitrary measurement", 
+                  grouping_variable = "arbitrary separator", 
+                  first_group = "group_1", 
+                  second_group = "group_2")
+```
+
