@@ -1,15 +1,42 @@
-normal_correlation <- function(data, method){
+#' normality_correlation
+#'
+#' Allows you to check the normality of each numeric variable by conducting the
+#' Shapiro-Wilk test and examining QQ plots. Additionally, it provides
+#' a correlation matrix based on the specified method.
+#'
+#' @import ggplot2
+#' @import ggpubr
+#' @import magrittr
+#' @import purrr
+#'
+#' @param data Data with numeric variables.
+#' @param method The method used to calculate correlation:
+#' c("pearson", "kendall", "spearman")
+#' @return List containing qq plots, correlation matrix, and Shapiro-Wilk test
+#' results
+#' @examples
+#' normality_correlation(penguins, "pearson")
+#' mutate_all(mtcars, as.factor) %>% normality_correlation(., "kendall") # Error
+#' normality_correlation(mtcars, "invalid_method") # Error
+
+normality_correlation <- function(data, method){
+
+  if(!(method %in% c("pearson", "kendall", "spearman"))){stop("The method specified is not one supported by the `cor()` function.")}
 
   numeric_subset <- data[sapply(data, is.numeric)]
 
-  length_numeric_colnames <- length(colnames(numeric_subset))
+  numeric_subset_names <- colnames(numeric_subset)
+
+  if(length(numeric_subset_names) == 0){stop("The dataframe contains no numeric variables. Check variable types using `typeof()`")}
+
+  length_numeric_colnames <- length(numeric_subset_names)
 
   qq_plots_list <- purrr::map(seq_len(length_numeric_colnames),
                   ~one_qq_plot(numeric_subset, numeric_subset_names[[.x]]))
 
   # In order to determine ideal qq plot layout
-  cols <- round(sqrt(length(qq_plots)),0)
-  rows <- ceiling(length(qq_plots)/cols)
+  cols <- round(sqrt(length(qq_plots_list)),0)
+  rows <- ceiling(length(qq_plots_list)/cols)
 
   qq_plots_out <-
     ggpubr::ggarrange(plotlist = qq_plots_list, ncol = cols, nrow = rows)
@@ -30,11 +57,5 @@ out_list <- list("Normality Test" = normality_res,
 return(out_list)
 
 }
-
-
-
-
-
-
 
 
