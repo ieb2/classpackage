@@ -5,6 +5,8 @@
 #' @import ggplot2
 #' @import ggpubr
 #' @import magrittr
+#' @import purrr
+#' @import tidyr
 #'
 #' @param data Data in either long or wide format.
 #' @param variable The variable for which the QQ plot is being constructed.
@@ -35,6 +37,8 @@ one_qq_plot <-
 #' @import ggplot2
 #' @import ggpubr
 #' @import magrittr
+#' @import purrr
+#' @import tidyr
 #'
 #' @param data Data in either long or wide format.
 #' @param variable The variable for which the QQ plot is being constructed.
@@ -110,6 +114,8 @@ independent_qq_plot <-
 #' @import ggplot2
 #' @import ggpubr
 #' @import magrittr
+#' @import purrr
+#' @import tidyr
 #'
 #' @param data Data in either long or wide format.
 #' @param variable The variable for which the QQ plot is being constructed.

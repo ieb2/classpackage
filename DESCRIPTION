@@ -14,3 +14,10 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Imports:
+    ggplot2,
+    ggpubr,
+    magrittr,
+    purrr,
+    tidyr
+

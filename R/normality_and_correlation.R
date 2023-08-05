@@ -8,6 +8,7 @@
 #' @import ggpubr
 #' @import magrittr
 #' @import purrr
+#' @import tidyr
 #'
 #' @param data Data with numeric variables.
 #' @param method The method used to calculate correlation:

@@ -8,9 +8,12 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
+knitr::opts_chunk$set() 
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>", 
+  fig.width=7, 
+  fig.height=5
 )
 options(tidyverse.quiet = TRUE)
 ```
@@ -21,7 +24,7 @@ library(classpackage)
 library(tidyverse)
 ```
 
-Lets begin by loading and cleaning the `penguins` dataset from the `palmerpenguins` package. 
+Let's begin by loading and cleaning the `penguins` dataset from the `palmerpenguins` package. 
 
 ```{r}
 data <- palmerpenguins::penguins %>%
@@ -32,7 +35,7 @@ data <- palmerpenguins::penguins %>%
 In statistics, a routine task often carried out for continuous variables involves testing for normality and correlation, which can be performed using the `normality_and_correlation` function. 
 
 ```{r}
-# For demonstration sake, we will use Kendall rank correlation
+#> For demonstration sake, we will use Kendall rank correlation
 output <- normality_correlation(data, "kendall")
 ```
 
@@ -42,7 +45,7 @@ The `output` variable is a list containing three items:
 names(output)
 ```
 
-Which can be subsetted for further analysis. For demonstration sake, lets pull the correlation matrix. 
+Which can be subsetted for further analysis. For demonstration sake, let's pull the correlation matrix. 
 
 ```{r}
 correlation_matrix <- output[["Correlation Matrix"]]
@@ -85,8 +88,8 @@ wide_dataset <- data.frame(
 )
 
 independent_qq_plot(wide_dataset,
-  variable = "arbitrary measurement",
-  grouping_variable = "arbitrary separator",
+  variable = "xyz",
+  grouping_variable = "abc",
   c("group_1", "group_2")
 )
 ```
@@ -116,19 +119,22 @@ long_dataset <- data.frame(
 In the long dataset, we use the `variable` argument, which represents the column containing the measurements we want to test. Similar to the previous function, we also use the `grouping_variable` argument, which holds the column name used to split the measurements into groups. Additionally, we have the `first_group` argument, where we specify the level of the `grouping_variable` from which the other level will be subtracted. The `second_group` argument is used to specify the level associated with the observations that will be subtracted from the first group.
 
 ```{r}
-dependent_qq_plot(long_dataset, variable = "measurements", 
-                  grouping_variable = "which_measurement", 
-                  first_group = "first", 
-                  second_group = "second")
+dependent_qq_plot(long_dataset,
+  variable = "measurements",
+  grouping_variable = "which_measurement",
+  first_group = "first",
+  second_group = "second"
+)
 ```
 
 
 In the context of the `dependent_qq_plot` function with wide datasets, there is a slight difference in the purpose of the arguments compared to the `dependent_qq_plot` function with long datasets, which is similar to what was observed in the `independent_qq_plot` function. Here, the `grouping_variable` and `variable` arguments become irrelevant and are used solely to modify the title of the resulting QQ plot. Instead, the `first_group` argument takes the name of the column that stores the first set of observations, while the `second_group` argument takes the name of the column that stores the second set of observations.
 
 ```{r}
-dependent_qq_plot(wide_dataset, variable = "arbitrary measurement", 
-                  grouping_variable = "arbitrary separator", 
-                  first_group = "group_1", 
-                  second_group = "group_2")
+dependent_qq_plot(wide_dataset,
+  variable = "xyz",
+  grouping_variable = "abc",
+  first_group = "first_measurement",
+  second_group = "second_measurement"
+)
 ```
-

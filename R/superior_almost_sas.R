@@ -5,6 +5,8 @@
 #' @import ggplot2
 #' @import ggpubr
 #' @import magrittr
+#' @import purrr
+#' @import tidyr
 #'
 #' @param model A linear model generated via "glm", "lm" or "aov".
 #' @param ... Optional argument for supplying binwidth argument to geom_histogram.
