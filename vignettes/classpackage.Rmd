@@ -8,14 +8,15 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set() 
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>", 
-  fig.width=7, 
-  fig.height=5
+  fig.width=8, 
+  fig.height=5, 
+  fig.align='center'
 )
 options(tidyverse.quiet = TRUE)
+options(width = 10000)
 ```
 
 ```{r setup, warning=FALSE}
