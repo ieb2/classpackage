@@ -14,7 +14,7 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-Imports:
+Depends:
     ggplot2,
     ggpubr,
     magrittr,
