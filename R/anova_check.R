@@ -9,11 +9,10 @@
 #' @import tidyr
 #'
 #' @param model A linear model generated via "glm", "lm" or "aov".
-#' @param ... Optional argument for supplying binwidth argument to geom_histogram.
 #' @return Graphic object
 #' @examples
 #' anova_check(lm(bill_length_mm ~ bill_depth_mm, data = penguins))
-#' anova_check(lm_object, binwidth = 10)
+#' anova_check(lm_object)
 #' anova_check(anova_object) # Error
 anova_check <- function(model, ...) {
   if ("lm" %in% class(model) == FALSE) {

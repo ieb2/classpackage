@@ -8,8 +8,6 @@ anova_check(model, ...)
 }
 \arguments{
 \item{model}{A linear model generated via "glm", "lm" or "aov".}
-
-\item{...}{Optional argument for supplying binwidth argument to geom_histogram.}
 }
 \value{
 Graphic object
@@ -19,6 +17,6 @@ Works similarly to almost_sas. Returns diagnostics graphs for glm, lm or aov obj
 }
 \examples{
 anova_check(lm(bill_length_mm ~ bill_depth_mm, data = penguins))
-anova_check(lm_object, binwidth = 10)
+anova_check(lm_object)
 anova_check(anova_object) # Error
 }
