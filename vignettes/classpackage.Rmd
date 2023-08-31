@@ -157,11 +157,12 @@ model_anova <-
   aov(bill_length_mm ~ flipper_length_mm, data)
 ```
 
-All of the preceding models are identical, and can serve as an input to the `anova_check()` function. 
+R considers all of the previous models to be identical and suitable as an input for the `anova_check()` function.
 
-```{r, eval = FALSE}
-anova_check(model_lm)
-anova_check(model_glm)
+```{r}
+#> anova_check(model_lm)
+#> anova_check(model_glm)
 anova_check(model_anova)
 ```
 
+The function `anova_check()` generates two graphs: a residuals vs. fitted graph and a QQ plot of the residuals. The residuals vs. fitted graph helps evaluate the assumption of homoskedasticity, while the QQ plot assesses the normality of residuals.
