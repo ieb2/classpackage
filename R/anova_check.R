@@ -1,4 +1,4 @@
-#' superior_almost_sas
+#' anova_check
 #'
 #' Works similarly to almost_sas. Returns diagnostics graphs for glm, lm or aov object.
 #'
@@ -12,10 +12,10 @@
 #' @param ... Optional argument for supplying binwidth argument to geom_histogram.
 #' @return Graphic object
 #' @examples
-#' superior_almost_sas(lm(bill_length_mm ~ bill_depth_mm, data = penguins))
-#' superior_almost_sas(lm_object, binwidth = 10)
-#' superior_almost_sas(anova_object) # Error
-superior_almost_sas <- function(model, ...) {
+#' anova_check(lm(bill_length_mm ~ bill_depth_mm, data = penguins))
+#' anova_check(lm_object, binwidth = 10)
+#' anova_check(anova_object) # Error
+anova_check <- function(model, ...) {
   if ("lm" %in% class(model) == FALSE) {
     stop("Not a valid regression model.
        Make sure object is created either via `glm`, lm` or `aov`")
