@@ -138,8 +138,30 @@ dependent_qq_plot(wide_dataset,
   first_group = "first_measurement",
   second_group = "second_measurement"
 )
+
+data
 ```
 
 ### anova_check 
 
-Lastly, let us review the `anova_check()` function, which allows us to assess the assumptions of a linear model. Consider modeling the bill length of penguins in millimeters using their species, weight, and 
+Lastly, let us review the `anova_check()` function, which allows us to assess the assumptions of a linear model. Consider modeling `bill_length_mm` using `flipper_length_mm`. 
+
+```{r}
+model_lm <- 
+  lm(bill_length_mm ~ flipper_length_mm, data)
+
+model_glm <- 
+  glm(bill_length_mm ~ flipper_length_mm, data = data, family = "gaussian")
+
+model_anova <- 
+  aov(bill_length_mm ~ flipper_length_mm, data)
+```
+
+All of the preceding models are identical, and can serve as an input to the `anova_check()` function. 
+
+```{r, eval = FALSE}
+anova_check(model_lm)
+anova_check(model_glm)
+anova_check(model_anova)
+```
+
