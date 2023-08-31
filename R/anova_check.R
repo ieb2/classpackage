@@ -4,7 +4,7 @@
 #'
 #' @import ggplot2
 #' @import ggpubr
-#' @import magrittr
+#' @importFrom magrittr %>%
 #' @import purrr
 #' @import tidyr
 #'
@@ -66,7 +66,7 @@ anova_check <- function(model, ...) {
     )
 
   out <-
-    ggpubr::ggarrange(res_fitted, res_his, qq_res)
+    ggpubr::ggarrange(res_fitted, qq_res)
 
   return(out)
 }

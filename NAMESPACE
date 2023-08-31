@@ -2,6 +2,6 @@
 
 import(ggplot2)
 import(ggpubr)
-import(magrittr)
 import(purrr)
 import(tidyr)
+importFrom(magrittr,"%>%")

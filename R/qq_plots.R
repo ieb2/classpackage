@@ -4,7 +4,7 @@
 #'
 #' @import ggplot2
 #' @import ggpubr
-#' @import magrittr
+#' @importFrom magrittr %>%
 #' @import purrr
 #' @import tidyr
 #'
@@ -36,7 +36,7 @@ one_qq_plot <-
 #'
 #' @import ggplot2
 #' @import ggpubr
-#' @import magrittr
+#' @importFrom magrittr %>%
 #' @import purrr
 #' @import tidyr
 #'
@@ -113,7 +113,7 @@ independent_qq_plot <-
 #'
 #' @import ggplot2
 #' @import ggpubr
-#' @import magrittr
+#' @importFrom magrittr %>%
 #' @import purrr
 #' @import tidyr
 #'

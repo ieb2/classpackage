@@ -139,3 +139,7 @@ dependent_qq_plot(wide_dataset,
   second_group = "second_measurement"
 )
 ```
+
+### anova_check 
+
+Lastly, let us review the `anova_check()` function, which allows us to assess the assumptions of a linear model. Consider modeling the bill length of penguins in millimeters using their species, weight, and 

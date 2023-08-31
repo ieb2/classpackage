@@ -17,7 +17,6 @@ VignetteBuilder: knitr
 Depends:
     ggplot2,
     ggpubr,
-    magrittr,
     purrr,
     tidyr
 
