@@ -1,15 +1,15 @@
 Package: classpackage
-Title: Organizes Commonly-Used Functions for Statistics Courses at the University of West Florida
+Title: Functions for Intro Statistics Courses at the University of West Florida
 Version: 0.0.0.9000
 Authors@R: 
      c(person(given = "Ihsan",
            family = "Buker",
-           role = c("aut", "cre"),
+           role = c("cre", "aut"),
            email = "iebuker@uab.edu"), 
            person(given = "Samantha", 
             family = "Seals", 
-            email = "sseals@uwf.edu"), 
-            role = "aut")
+            email = "sseals@uwf.edu", 
+            role = c("aut")))
 Description: This package functions as an organizational tool designed to streamline the use of frequently employed functions in introductory statistics courses at the University of West Florida.
 License: use_gpl_license()
 Encoding: UTF-8
@@ -26,4 +26,3 @@ Depends:
     ggpubr,
     purrr,
     tidyr
-Config/testthat/edition: 3
