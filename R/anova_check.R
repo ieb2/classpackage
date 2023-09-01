@@ -34,7 +34,7 @@ anova_check <- function(model) {
     ggplot2::ggplot(model, aes(x = .resid)) +
     ggplot2::geom_histogram(aes(y = after_stat(count / sum(count))),
       colour = "black",
-      fill = "#6A6C6E", ...
+      fill = "#6A6C6E"
     ) +
     ggplot2::stat_function(
       fun = dnorm, args = list(
