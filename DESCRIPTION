@@ -25,4 +25,5 @@ Depends:
     ggplot2,
     ggpubr,
     purrr,
-    tidyr
+    tidyr, 
+    dplyr
