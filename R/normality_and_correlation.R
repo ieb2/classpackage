@@ -57,7 +57,7 @@ normality_correlation <- function(data, method, digits_desired = NULL){
     dplyr::select(-c(method, `data.name`)) %>%
     dplyr::rename("Test Statistic" = "statistic", "p-value" = "p.value") %>%
     tidyr::unnest(cols = c(`Test Statistic`, `p-value`)) %>%
-    mutate_if(is.numeric, ~round(.x, digits = digits_desired))
+    dplyr::mutate_if(is.numeric, ~round(.x, digits = digits_desired))
 
 out_list <- list("Normality Test" = normality_res,
                  "Correlation Matrix" = corr_mat,
