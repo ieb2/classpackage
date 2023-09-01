@@ -4,7 +4,7 @@
 \alias{anova_check}
 \title{anova_check}
 \usage{
-anova_check(model, ...)
+anova_check(model)
 }
 \arguments{
 \item{model}{A linear model generated via "glm", "lm" or "aov".}
@@ -13,7 +13,7 @@ anova_check(model, ...)
 Graphic object
 }
 \description{
-Works similarly to almost_sas. Returns diagnostics graphs for glm, lm or aov object.
+Returns diagnostics graphs for glm, lm or aov object.
 }
 \examples{
 anova_check(lm(bill_length_mm ~ bill_depth_mm, data = penguins))

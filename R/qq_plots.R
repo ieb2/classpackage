@@ -13,6 +13,7 @@
 #' @return Graphic object
 #' @examples
 #' one_qq_plot(penguins, "bill_length_mm")
+#' @export
 one_qq_plot <-
   function(data, variable) {
 
@@ -49,6 +50,7 @@ one_qq_plot <-
 #' @return Graphic object
 #' @examples
 #' independent_qq_plot(penguins, "bill_length_mm", "sex")
+#' @export
 independent_qq_plot <-
   function(data, variable, grouping_variable, ...) {
     if (!(grouping_variable %in% colnames(data))) {
@@ -129,6 +131,7 @@ independent_qq_plot <-
 #' @return Graphic object
 #' @examples
 #' dependent_qq_plot(a1c_measurements, "time_point", "first_measurement", "second_measurement")
+#' @export
 dependent_qq_plot <-
   function(data, variable, grouping_variable, first_group, second_group) {
     if (!(grouping_variable %in% colnames(data))) {

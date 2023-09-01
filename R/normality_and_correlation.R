@@ -21,7 +21,7 @@
 #' normality_correlation(penguins, "pearson")
 #' mutate_all(mtcars, as.factor) %>% normality_correlation(., "kendall") # Error
 #' normality_correlation(mtcars, "invalid_method") # Error
-
+#' @export
 normality_correlation <- function(data, method, digits_desired = NULL){
 
   if(is.null(digits_desired)){digits_desired <- 5}
