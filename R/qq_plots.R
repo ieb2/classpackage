@@ -134,8 +134,12 @@ independent_qq_plot <-
 #' @export
 dependent_qq_plot <-
   function(data, variable, grouping_variable, first_group, second_group) {
+
+    grouping_variable <- ifelse(missing(grouping_variable), "random", grouping_variable)
+
     if (!(grouping_variable %in% colnames(data))) {
-      data <- tidyr::pivot_longer(data, names_to = grouping_variable, cols = everything()) %>%
+      data <- tidyr::pivot_longer(data, names_to = grouping_variable, cols = everything(),
+                                  values_transform = as.character) %>%
         dplyr::filter(.[[grouping_variable]] %in% c(first_group, second_group))
 
       colnames(data) <- c(grouping_variable, variable)
@@ -144,7 +148,7 @@ dependent_qq_plot <-
     }
 
     split_dfs <- data %>%
-      dplyr::group_split(get(grouping_variable))
+      dplyr::group_split(!!rlang::sym(grouping_variable))
 
     levels_vector <-
       sapply(split_dfs, function(x) (x[[grouping_variable]])[[1]]) %>%
@@ -158,15 +162,15 @@ dependent_qq_plot <-
 
     first_group_df <-
       ifelse(split_dfs[[1]][[grouping_variable]][[1]] == first_group,
-        split_dfs[1], split_dfs[2]
+             split_dfs[1], split_dfs[2]
       )
 
     second_group_df <-
       ifelse(split_dfs[[2]][[grouping_variable]][[1]] == second_group,
-        split_dfs[2], split_dfs[1]
+             split_dfs[2], split_dfs[1]
       )
 
-    diff <- first_group_df[[1]][[variable]] - second_group_df[[1]][[variable]]
+    diff <- as.numeric(first_group_df[[1]][[variable]]) - as.numeric(second_group_df[[1]][[variable]])
 
     if (first_group_df[[1]][[grouping_variable]][[1]] != first_group) {
       stop(cat(first_group, "is not a valid level of the grouping variable"))
@@ -192,4 +196,6 @@ dependent_qq_plot <-
         variable, " in order of: ",
         first_group, "-", second_group
       ))
+
   }
+
