@@ -9,6 +9,7 @@
 #' @importFrom magrittr %>%
 #' @import purrr
 #' @import tidyr
+#' @import broom
 #'
 #' @param data Data with numeric variables.
 #' @param method The method used to calculate correlation:

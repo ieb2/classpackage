@@ -6,6 +6,7 @@
 #' @importFrom magrittr %>%
 #' @import purrr
 #' @import tidyr
+#' @import broom
 #'
 #' @param model A linear model generated via "glm", "lm" or "aov".
 #' @return Graphic object
