@@ -9,10 +9,12 @@ outlier_count(df, model)
 \arguments{
 \item{df}{dataset of interest.}
 
-\item{model}{A linear model generated via "glm", "lm" or "aov".
-model <- lm(bill_length_mm ~ bill_depth_mm + year, penguins)
-outlier_count(penguins, model)}
+\item{model}{A linear model generated via "glm", "lm" or "aov".}
 }
 \description{
 Returns a tibble with count of suspected outliers in the dataset.
+}
+\examples{
+model <- lm(bill_length_mm ~ bill_depth_mm + year, penguins)
+outlier_count(penguins, model)
 }

@@ -97,6 +97,7 @@ cooks <-
 #' @import broom
 #' @param df dataset of interest.
 #' @param model A linear model generated via "glm", "lm" or "aov".
+#' @examples
 #' model <- lm(bill_length_mm ~ bill_depth_mm + year, penguins)
 #' outlier_count(penguins, model)
 #' @export
@@ -127,6 +128,7 @@ outlier_count <- function(df, model) {
 #' @param y_var The variable to be plotted on the y-axis.
 #' @param x_lab String to be used as the x-axis label. If NULL, defaults to the name of the x_var.
 #' @param y_lab String to be used as the y-axis label. If NULL, defaults to the name of the y_var.
+#' @examples
 #' model <- lm(bill_length_mm ~ bill_depth_mm + year, penguins)
 #' outlier_graph(penguins, model, x_var = bill_depth_mm, y_var = bill_length_mm) # Axis labels will be bill_depth_mm and bill_length_mm, respectively.
 #' outlier_graph(penguins, model, x_var = bill_depth_mm, y_var = bill_length_mm, x_lab = "a", y_lab = "b") # Axis labels will be a and b, respectively.
