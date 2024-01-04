@@ -41,6 +41,7 @@ one_qq_plot <-
 #' @importFrom magrittr %>%
 #' @import purrr
 #' @import tidyr
+#' @import broom
 #'
 #' @param data Data in either long or wide format.
 #' @param variable The variable for which the QQ plot is being constructed.
@@ -119,6 +120,7 @@ independent_qq_plot <-
 #' @importFrom magrittr %>%
 #' @import purrr
 #' @import tidyr
+#' @import broom
 #'
 #' @param data Data in either long or wide format.
 #' @param variable The variable for which the QQ plot is being constructed.

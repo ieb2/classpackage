@@ -20,8 +20,14 @@
 #' cooks(model) # Works
 #' cooks(model, label = FALSE, show.threshold = TRUE, threshold = "matlab", scale.factor = 0.9) # Works
 #' @export
-cooks <- function(fitted.lm, label = TRUE, show.threshold = FALSE, threshold = "convention", scale.factor = 0.5)
+cooks <-
+  function(fitted.lm, label = TRUE, show.threshold = FALSE, threshold = "convention", scale.factor = 0.5)
   {
+
+  if ("lm" %in% class(model) == FALSE) {
+    stop("Not a valid regression model.
+       Make sure object is created either via `glm`, lm` or `aov`")
+  }
 
   # obtain linear model matrix
   lm_matrix <- broom::augment(fitted.lm) %>%
@@ -72,4 +78,50 @@ cooks <- function(fitted.lm, label = TRUE, show.threshold = FALSE, threshold = "
 
   return(base_plot)
 }
+
+#' outlier_count
+#'
+#' Returns a count of suspected outliers in the dataset.
+#' @import ggplot2
+#' @import ggpubr
+#' @importFrom magrittr %>%
+#' @import purrr
+#' @import tidyr
+#' @import broom
+#' @param df dataset of interest.
+#' @param model A linear model generated via "glm", "lm" or "aov".
+outlier_count <- function(df, model) {
+  if ("lm" %in% class(model) == FALSE) {
+    stop("Not a valid regression model.
+       Make sure object is created either via `glm`, lm` or `aov`")
+  }
+
+  broom::augment(model) %>%
+    dplyr::mutate(outlier = dplyr::if_else(abs(.std.resid) > 2.5, true = "Suspected", false = "Not Suspected", missing = "Missing")) %>%
+    dplyr::group_by(outlier) %>%
+    dplyr::summarise(count = n())
+}
+
+outlier_graph <- function(df, model, x_var, y_var, x_lab, y_lab){
+  if ("lm" %in% class(model) == FALSE) {
+    stop("Not a valid regression model.
+       Make sure object is created either via `glm`, lm` or `aov`")
+  }
+
+  broom::augment(model) %>%
+    dplyr::mutate(outlier = dplyr::if_else(abs(.std.resid) > 2.5, true = "Suspected", false = "Not Suspected", missing = "Missing")) %>%
+    dplyr::select(outlier) %>%
+    merge(., df) %>%
+    ggplot2::ggplot(., aes(x = {{ x_var }}, y = {{ y_var }}, color = outlier)) +
+    ggplot2::geom_point() +
+    ggplot2::scale_color_manual(values = c("#999999", "#000000")) +
+    ggplot2::theme_bw() +
+    ggplot2::labs(x = x_lab, y = y_lab, color = "Outlier")
+}
+model <- lm(bill_depth_mm ~ ., palmerpenguins::penguins)
+df <- palmerpenguins::penguins
+
+outlier_graph(df = df, model = model, x_var = bill_length_mm, y_var = bill_depth_mm,
+              x_lab = "poop", y_lab = "pee")
+
 
