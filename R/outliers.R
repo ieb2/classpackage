@@ -102,26 +102,51 @@ outlier_count <- function(df, model) {
     dplyr::summarise(count = n())
 }
 
-outlier_graph <- function(df, model, x_var, y_var, x_lab, y_lab){
+#' outlier_grpah
+#'
+#' Returns a scatterplot augmented with outlier information.
+#' @import ggplot2
+#' @import ggpubr
+#' @importFrom magrittr %>%
+#' @import purrr
+#' @import tidyr
+#' @import broom
+#' @param df dataset of interest.
+#' @param model A linear model generated via "glm", "lm" or "aov".
+#' @param x_var The variable to be plotted on the x-axis.
+#' @param y_var The variable to be plotted on the y-axis.
+#' @param x_lab String to be used as the x-axis label. If NULL, defaults to the name of the x_var.
+#' @param y_lab String to be used as the y-axis label. If NULL, defaults to the name of the y_var.
+
+outlier_graph <- function(df, model, x_var, y_var, x_lab = NULL, y_lab = NULL){
   if ("lm" %in% class(model) == FALSE) {
     stop("Not a valid regression model.
        Make sure object is created either via `glm`, lm` or `aov`")
   }
 
-  broom::augment(model) %>%
-    dplyr::mutate(outlier = dplyr::if_else(abs(.std.resid) > 2.5, true = "Suspected", false = "Not Suspected", missing = "Missing")) %>%
-    dplyr::select(outlier) %>%
-    merge(., df) %>%
+  if(is.null(x_lab)){
+    x_lab <- deparse(substitute(x_var))
+  } else {x_lab <- x_lab}
+
+  if(is.null(y_lab)){
+    y_lab <- deparse(substitute(y_var))
+  } else {y_lab <- y_lab}
+
+  data <- broom::augment(model, newdata = df) %>%
+    dplyr::mutate(.std.resid = .resid / sd(.resid, na.rm = TRUE)) %>%
+    dplyr::filter(!is.na(.std.resid)) %>%
+    dplyr::mutate(outlier = dplyr::if_else(abs(.std.resid) > 2.5, true = "Suspected", false = "Not Suspected", missing = "Missing"))
+
+  n_suspected <- sum(data$outlier == "Suspected")
+
+  plot <- data %>%
     ggplot2::ggplot(., aes(x = {{ x_var }}, y = {{ y_var }}, color = outlier)) +
     ggplot2::geom_point() +
     ggplot2::scale_color_manual(values = c("#999999", "#000000")) +
     ggplot2::theme_bw() +
-    ggplot2::labs(x = x_lab, y = y_lab, color = "Outlier")
+    ggplot2::labs(x = x_lab, y = y_lab, color = "Outlier",
+                  title = paste0("There are ", n_suspected, " suspected outliers."))
+
+  return(plot)
 }
-model <- lm(bill_depth_mm ~ ., palmerpenguins::penguins)
-df <- palmerpenguins::penguins
-
-outlier_graph(df = df, model = model, x_var = bill_length_mm, y_var = bill_depth_mm,
-              x_lab = "poop", y_lab = "pee")
-
 
