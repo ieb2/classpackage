@@ -17,8 +17,7 @@
 #' @return gg object
 #' @examples
 #' model <- lm(bill_length_mm ~ bill_depth_mm + year, penguins)
-#' cooks(model) # Works
-#' cooks(model, label = FALSE, show.threshold = TRUE, threshold = "matlab", scale.factor = 0.9) # Works
+#' cooks(model)
 #' @export
 cooks <-
   function(fitted.lm, label = TRUE, show.threshold = FALSE, threshold = "convention", scale.factor = 0.5)
@@ -76,12 +75,18 @@ cooks <-
       ggplot2::geom_text(label = lm_matrix[, "rowname"], nudge_y = 0.05, color = "black")
   }
 
+  if (show.threshold) {
+    base_plot <- base_plot +
+      ggplot2::geom_hline(yintercept = threshold, linetype = "dashed")
+  }
+
   return(base_plot)
-}
+  }
+
 
 #' outlier_count
 #'
-#' Returns a count of suspected outliers in the dataset.
+#' Returns a tibble with count of suspected outliers in the dataset.
 #' @import ggplot2
 #' @import ggpubr
 #' @importFrom magrittr %>%
@@ -90,6 +95,9 @@ cooks <-
 #' @import broom
 #' @param df dataset of interest.
 #' @param model A linear model generated via "glm", "lm" or "aov".
+#' model <- lm(bill_length_mm ~ bill_depth_mm + year, penguins)
+#' outlier_count(penguins, model)
+#' @export
 outlier_count <- function(df, model) {
   if ("lm" %in% class(model) == FALSE) {
     stop("Not a valid regression model.
@@ -117,7 +125,10 @@ outlier_count <- function(df, model) {
 #' @param y_var The variable to be plotted on the y-axis.
 #' @param x_lab String to be used as the x-axis label. If NULL, defaults to the name of the x_var.
 #' @param y_lab String to be used as the y-axis label. If NULL, defaults to the name of the y_var.
-
+#' model <- lm(bill_length_mm ~ bill_depth_mm + year, penguins)
+#' outlier_graph(penguins, model, x_var = bill_depth_mm, y_var = bill_length_mm) # Axis labels will be bill_depth_mm and bill_length_mm, respectively.
+#' outlier_graph(penguins, model, x_var = bill_depth_mm, y_var = bill_length_mm, x_lab = "a", y_lab = "b") # Axis labels will be a and b, respectively.
+#' @export
 outlier_graph <- function(df, model, x_var, y_var, x_lab = NULL, y_lab = NULL){
   if ("lm" %in% class(model) == FALSE) {
     stop("Not a valid regression model.
