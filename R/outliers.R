@@ -25,7 +25,7 @@ cooks <-
   function(fitted.lm, label = TRUE, show.threshold = FALSE, threshold = "convention", scale.factor = 0.5)
   {
 
-  if ("lm" %in% class(model) == FALSE) {
+  if ("lm" %in% class(fitted.lm) == FALSE) {
     stop("Not a valid regression model.
        Make sure object is created either via `glm`, lm` or `aov`")
   }
