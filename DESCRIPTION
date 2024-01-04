@@ -20,10 +20,12 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 Imports: 
-    magrittr
+    magrittr, 
+    Rdpack
 Depends:
     ggplot2,
     ggpubr,
     purrr,
     tidyr, 
     dplyr
+RdMacros: Rdpack

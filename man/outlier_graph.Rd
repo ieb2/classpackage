@@ -17,7 +17,10 @@ outlier_graph(df, model, x_var, y_var, x_lab = NULL, y_lab = NULL)
 
 \item{x_lab}{String to be used as the x-axis label. If NULL, defaults to the name of the x_var.}
 
-\item{y_lab}{String to be used as the y-axis label. If NULL, defaults to the name of the y_var.}
+\item{y_lab}{String to be used as the y-axis label. If NULL, defaults to the name of the y_var.
+model <- lm(bill_length_mm ~ bill_depth_mm + year, penguins)
+outlier_graph(penguins, model, x_var = bill_depth_mm, y_var = bill_length_mm) # Axis labels will be bill_depth_mm and bill_length_mm, respectively.
+outlier_graph(penguins, model, x_var = bill_depth_mm, y_var = bill_length_mm, x_lab = "a", y_lab = "b") # Axis labels will be a and b, respectively.}
 }
 \description{
 Returns a scatterplot augmented with outlier information.

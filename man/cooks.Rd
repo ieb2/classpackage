@@ -28,10 +28,12 @@ used to determine whether an observation is an outlier. "baseR" (0.5 and 1), "ma
 gg object
 }
 \description{
-Returns Cook's distance plot for supplied linear models.
+Returns Cook's distance plot for supplied linear models. The code for this function is based on the "gg_cooksd" function from the "lindia" package.
 }
 \examples{
 model <- lm(bill_length_mm ~ bill_depth_mm + year, penguins)
-cooks(model) # Works
-cooks(model, label = FALSE, show.threshold = TRUE, threshold = "matlab", scale.factor = 0.9) # Works
+cooks(model)
+}
+\references{
+\insertRef{lindia}{classpackage}
 }

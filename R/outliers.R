@@ -1,13 +1,15 @@
 #' cooks
 #'
-#' Returns Cook's distance plot for supplied linear models.
+#' Returns Cook's distance plot for supplied linear models. The code for this function is based on the "gg_cooksd" function from the "lindia" package.
 #' @import ggplot2
 #' @import ggpubr
 #' @importFrom magrittr %>%
 #' @import purrr
 #' @import tidyr
 #' @import broom
-#'
+#' @importFrom Rdpack reprompt
+#' @references
+#' \insertRef{lindia}{classpackage}
 #' @param fitted.lm A linear model generated via "glm", "lm" or "aov".
 #' @param label Logical. Whether or not outliers should be labeled on the plot.
 #' @param show.threshold Logical. Whether or not the threshold value should be on the plot.
