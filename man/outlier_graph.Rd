@@ -2,7 +2,7 @@
 % Please edit documentation in R/outliers.R
 \name{outlier_graph}
 \alias{outlier_graph}
-\title{outlier_grpah}
+\title{outlier_graph}
 \usage{
 outlier_graph(df, model, x_var, y_var, x_lab = NULL, y_lab = NULL)
 }

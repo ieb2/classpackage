@@ -9,7 +9,9 @@ cooks(
   label = TRUE,
   show.threshold = FALSE,
   threshold = "convention",
-  scale.factor = 0.5
+  scale.factor = 0.5,
+  n_labels_desired = NULL,
+  label_height_nudge = 0
 )
 }
 \arguments{
@@ -23,6 +25,10 @@ cooks(
 used to determine whether an observation is an outlier. "baseR" (0.5 and 1), "matlab" (mean(cooksd)*3), and "convention" (4/n and 1).}
 
 \item{scale.factor}{Integer value that scales the point size and linewidth to allow customized viewing. Defaults to 0.5}
+
+\item{n_labels_desired}{Integer value that represents the number of labels to be displayed. If no value is supplied, all outliers are labeled.}
+
+\item{label_height_nudge}{Integer value that represents the label offset in relation to the upper end of the line. Defaults to 0.}
 }
 \value{
 gg object
