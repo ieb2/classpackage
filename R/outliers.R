@@ -187,4 +187,3 @@ outlier_graph <- function(df, model, x_var, y_var, x_lab = NULL, y_lab = NULL){
 
   return(plot)
 }
-
