@@ -73,7 +73,7 @@ cooks <-
                     ggplot2::geom_linerange(linewidth = scale.factor) +
                     ggplot2::xlab("Observation Number") +
                     ggplot2::ylab("Cook's Distance") +
-                    ggplot2::ylim(0, max_cook+0.05)) +
+                    ggplot2::ylim(0, max_cook)) +
       ggplot2::theme_bw()
 
     # labelling of potential outliers
